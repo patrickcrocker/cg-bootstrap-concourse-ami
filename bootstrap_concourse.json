@@ -16,7 +16,7 @@
     "instance_type": "m3.large",
     "ssh_username": "ubuntu",
     "ami_name": "pivotal-pa-concourse-v{{user `concourse_version`}}-{{timestamp}}",
-    "ami_description": "https://github.com/patrickcrocker/cg-bootstrap-concourse-ami",
+    "ami_description": "https://github.com/Pivotal-Field-Engineering/concourse-packer",
     "ami_groups": [ "all" ]
   }],
 
