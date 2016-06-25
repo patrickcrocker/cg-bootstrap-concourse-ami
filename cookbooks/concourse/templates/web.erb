@@ -4,13 +4,23 @@ BASE_DIR="/opt/concourse"
 
 source $BASE_DIR/bin/_userdata.sh
 
+AUTH_CONFIG=
+
+[ -n "$GITHUB_AUTH_CLIENT_ID" ] && AUTH_CONFIG="$AUTH_CONFIG --github-auth-client-id=$GITHUB_AUTH_CLIENT_ID"
+[ -n "$GITHUB_AUTH_CLIENT_SECRET" ] && AUTH_CONFIG="$AUTH_CONFIG --github-auth-client-secret=$GITHUB_AUTH_CLIENT_SECRET"
+[ -n "$GITHUB_AUTH_ORGANIZATION" ] && AUTH_CONFIG="$AUTH_CONFIG --github-auth-organization=$GITHUB_AUTH_ORGANIZATION"
+[ -n "$GITHUB_AUTH_TEAM" ] && AUTH_CONFIG="$AUTH_CONFIG --github-auth-team=$GITHUB_AUTH_TEAM"
+
+if [ -z "$AUTH_CONFIG" ]; then
+  AUTH_CONFIG="--basic-auth-username $USERNAME --basic-auth-password $PASSWORD"
+fi
+
 $BASE_DIR/bin/concourse web \
     --bind-port 8080 \
-    --basic-auth-username $USERNAME \
-    --basic-auth-password $PASSWORD \
     --session-signing-key $BASE_DIR/etc/session_signing_key \
     --tsa-host-key $BASE_DIR/etc/host_key \
     --tsa-authorized-keys $BASE_DIR/etc/worker_key.pub \
     --postgres-data-source='postgres://atc:<%= @db_password %>@127.0.0.1:5432/atc?sslmode=disable' \
     --external-url https://$HOSTNAME \
+    $AUTH_CONFIG \
 | tee /var/log/concourse-web.log

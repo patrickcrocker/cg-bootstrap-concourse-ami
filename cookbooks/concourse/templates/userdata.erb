@@ -8,6 +8,11 @@ export USERNAME="$(curl http://169.254.169.254/latest/user-data | $BASE_DIR/bin/
 export PASSWORD="$(curl http://169.254.169.254/latest/user-data | $BASE_DIR/bin/extract_yaml_key password <%= @ci_default_password %>)"
 export PIPELINE="$(curl http://169.254.169.254/latest/user-data | $BASE_DIR/bin/extract_yaml_key pipeline)"
 
+export GITHUB_AUTH_CLIENT_ID="$(curl http://169.254.169.254/latest/user-data | $BASE_DIR/bin/extract_yaml_key github-auth-client-id)"
+export GITHUB_AUTH_CLIENT_SECRET="$(curl http://169.254.169.254/latest/user-data | $BASE_DIR/bin/extract_yaml_key github-auth-client-secret)"
+export GITHUB_AUTH_ORGANIZATION="$(curl http://169.254.169.254/latest/user-data | $BASE_DIR/bin/extract_yaml_key github-auth-organization)"
+export GITHUB_AUTH_TEAM="$(curl http://169.254.169.254/latest/user-data | $BASE_DIR/bin/extract_yaml_key github-auth-team)"
+
 export AWS_HOSTNAME="$(curl http://169.254.169.254/latest/meta-data/public-hostname)"
 
 export HOSTNAME="$(curl http://169.254.169.254/latest/user-data | $BASE_DIR/bin/extract_yaml_key hostname $AWS_HOSTNAME)"
