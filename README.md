@@ -14,7 +14,7 @@ To build an AMI with this template first create a secrets.json file with the fol
 }
 ```
 
-If deploying to a region other than `us-gov-west-1` add the the `source_ami` key to the secrets
+If deploying to a region other than `us-east-1` add the the `source_ami` key to the secrets
 with the appropriate AMI-ID for the region. According to the [Concourse installation guide](https://concourse.ci/binaries.html) only Ubuntu 14.04 LTS is supported.
 
 AMI-IDs for other regions can be found by using [Ubuntu's AMI locator](https://cloud-images.ubuntu.com/locator/ec2/) and selecting the `14.04 LTS hvm:ebs-ssd` image for the desired region.
@@ -46,4 +46,4 @@ hostname: ci.example.com
 ```
 
 #### Accessing Concourse
-Concourse runs on `port 80`. Ensure the instance is placed into a security group that allows access to this port.
+Concourse runs on `port 443`. Ensure the instance is placed into a security group that allows access to this port.
