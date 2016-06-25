@@ -18,6 +18,20 @@ jobs:
     params:
       template: prepare-release/bootstrap_concourse.json
       var_file: prepare-release/secrets.json
+    on_failure:
+      put: slack
+      params:
+        text: |
+          :x: FAILED to build Concourse AMI
+          <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
+    on_success:
+      put: slack
+      params:
+        text: |
+          :white_check_mark: Successfully built Concourse AMI
+          <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
 
 resources:
 - name: concourse-packer
@@ -40,8 +54,18 @@ resources:
     aws_secret_access_key: {{aws-secret-access-key}}
     region: {{aws-default-region}}
 
+- name: slack
+  type: slack-notification
+  source:
+    url: {{slack-webhook-url}}
+
 resource_types:
 - name: packer
   type: docker-image
   source:
     repository: jdub/packer-resource
+
+- name: slack-notification
+  type: docker-image
+  source:
+    repository: cfcommunity/slack-notification-resource
