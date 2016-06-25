@@ -92,8 +92,8 @@ template '/opt/concourse/bin/_userdata.sh' do
   })
 end
 
-remote_file '/opt/concourse/bin/concourse' do
-  source 'file://../concourse-release/concourse_linux_amd64'
+cookbook_file '/opt/concourse/bin/concourse' do
+  source 'concourse_linux_amd64'
   mode 0755
   action :create
 end
