@@ -9,7 +9,7 @@ cp -a concourse-packer/. prepare-release/
 cp concourse-release/concourse_linux_amd64 prepare-release/cookbooks/concourse/files/.
 
 # get version from the version file
-VERSION=$(cat concourse-release/version | awk -F"/" '{ print $1 }')
+VERSION=$(cat concourse-release/version)
 
 # append the version to the base config
 if [ -z "$CONFIG" ]; then
