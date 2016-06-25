@@ -12,7 +12,8 @@ jobs:
   - task: prepare-release
     file: concourse-packer/tasks/prepare-release.yml
     params:
-      CONFIG: "aws_region": "us-east-1", "source_ami": "ami-db24d8b6"
+      CONFIG: |
+        "aws_region": "us-east-1", "source_ami": "ami-db24d8b6"
   - put: packer-aws
     params:
       template: prepare-release/bootstrap_concourse.json
@@ -44,7 +45,8 @@ jobs:
   - task: prepare-release
     file: concourse-packer/tasks/prepare-release.yml
     params:
-      CONFIG: "aws_region": "us-west-1", "source_ami": "ami-11286c71"
+      CONFIG: |
+        "aws_region": "us-west-1", "source_ami": "ami-11286c71"
   - put: packer-aws
     params:
       template: prepare-release/bootstrap_concourse.json
@@ -76,7 +78,8 @@ jobs:
   - task: prepare-release
     file: concourse-packer/tasks/prepare-release.yml
     params:
-      CONFIG: "aws_region": "us-west-2", "source_ami": "ami-012de961"
+      CONFIG: |
+        "aws_region": "us-west-2", "source_ami": "ami-012de961"
   - put: packer-aws
     params:
       template: prepare-release/bootstrap_concourse.json
