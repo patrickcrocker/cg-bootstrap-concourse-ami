@@ -1,5 +1,5 @@
 db_password = shell_out("tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1").stdout.strip
-concourse_binary_release = shell_out("curl https://api.github.com/repos/concourse/concourse/releases | grep browser_download_url | grep 'linux_amd64' | head -n 1 | cut -d'\"' -f4").stdout.strip
+#concourse_binary_release = shell_out("curl https://api.github.com/repos/concourse/concourse/releases | grep browser_download_url | grep 'linux_amd64' | head -n 1 | cut -d'\"' -f4").stdout.strip
 
 ci_default_username = "ci"
 ci_default_password = "walt"
@@ -93,7 +93,7 @@ template '/opt/concourse/bin/_userdata.sh' do
 end
 
 remote_file '/opt/concourse/bin/concourse' do
-  source concourse_binary_release
+  source 'file://../concourse-release/concourse_linux_amd64'
   mode 0755
   action :create
 end
