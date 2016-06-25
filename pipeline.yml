@@ -132,6 +132,39 @@ jobs:
           <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
         channel: {{slack-channel}}
 
+- name: aws-ap-northeast-1
+  plan:
+  - aggregate:
+    - get: concourse-packer
+    - get: concourse-release
+      trigger: true
+      params:
+        globs:
+          - concourse_linux_amd64
+  - task: prepare-release
+    file: concourse-packer/tasks/prepare-release.yml
+    params:
+      CONFIG: |
+        "aws_region": "ap-northeast-1", "source_ami": "ami-e839cd89"
+  - put: packer-aws
+    params:
+      template: prepare-release/bootstrap_concourse.json
+      var_file: prepare-release/secrets.json
+    on_failure:
+      put: slack
+      params:
+        text: |
+          :x: FAILED to build Concourse AMI (ap-northeast-1)
+          <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
+    on_success:
+      put: slack
+      params:
+        text: |
+          :white_check_mark: Successfully built Concourse AMI (ap-northeast-1)
+          <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
+
 resources:
 - name: concourse-packer
   type: git
