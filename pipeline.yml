@@ -5,6 +5,7 @@ jobs:
   - aggregate:
     - get: concourse-packer
     - get: concourse-release
+      trigger: true
       params:
         globs:
           - concourse_linux_amd64
@@ -31,7 +32,6 @@ resources:
     user: concourse
     repository: concourse
     access_token: {{concourse-packer-git-access-token}}
-
 
 - name: packer-aws
   type: packer
