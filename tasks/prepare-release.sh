@@ -18,6 +18,8 @@ else
   CONFIG="$CONFIG, \"concourse_version\": \"$VERSION\" "
 fi
 
+echo "version=$VERSION"
+
 cat <<EOF > prepare-release/secrets.json
 { $CONFIG }
 EOF
