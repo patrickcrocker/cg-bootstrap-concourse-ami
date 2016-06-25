@@ -1,5 +1,6 @@
 {
   "variables": {
+    "concourse_version": "0.0.0",
     "aws_access_key": "",
     "aws_secret_key": "",
     "aws_region": "us-east-1",
@@ -14,7 +15,7 @@
     "source_ami": "{{user `source_ami`}}",
     "instance_type": "m3.large",
     "ssh_username": "ubuntu",
-    "ami_name": "pivotal-pa-concourse-v{{timestamp}}",
+    "ami_name": "pivotal-pa-concourse-v{{user `concourse_version`}}-{{timestamp}}",
     "ami_description": "https://github.com/patrickcrocker/cg-bootstrap-concourse-ami"
   }],
 
