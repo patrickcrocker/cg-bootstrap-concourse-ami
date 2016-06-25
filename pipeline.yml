@@ -1,78 +1,45 @@
 ---
 jobs:
-- name: build-concourse-ami
+- name: build
   plan:
   - aggregate:
-    - get: cg-bootstrap-concourse-ami
-      trigger: true
+    - get: concourse-packer
     - get: concourse-release
-      trigger: true
-    - get: pipeline-tasks
-  - task: generate-var-file
-    file: pipeline-tasks/write_file.yml
-    params:
-      FILE_NAME: write_file/secrets.json
-      CONTENT: |
-        {"aws_access_key": {{aws_access_key_id}}, "aws_secret_key": {{aws_secret_access_key}}, "aws_region": {{aws_default_region}}}
-  - put: build-cg-bootstrap-concourse-ami
-    params:
-      template: cg-bootstrap-concourse-ami/bootstrap_concourse.json
-      var_file: write_file/secrets.json
-    on_failure:
-      put: slack
       params:
-        text: |
-          :x: FAILED to build Concourse AMI
-          <https://ci.cloud.gov/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
-        channel: {{slack-channel}}
-        username: {{slack-username}}
-        icon_url: {{slack-icon-url}}
-    on_success:
-      put: slack
-      params:
-        text: |
-          :white_check_mark: Successfully built Concourse AMI
-          <https://ci.cloud.gov/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
-        channel: {{slack-channel}}
-        username: {{slack-username}}
-        icon_url: {{slack-icon-url}} 
+        globs:
+          - concourse_linux_amd64
+  - task: prepare-release
+    file: concourse-packer/tasks/prepare-release.yml
+    params:
+      CONFIG: |
+        "aws_access_key": {{aws-access-key-id}}, "aws_secret_key": {{aws-secret-access-key}}, "aws_region": {{aws-default-region}}
+  - put: packer-aws
+    params:
+      template: prepare-release/bootstrap_concourse.json
+      var_file: prepare-release/secrets.json
 
 resources:
-- name: cg-bootstrap-concourse-ami
+- name: concourse-packer
   type: git
   source:
-    uri: {{cg-bootstrap-concourse-ami-git-url}}
-    branch: {{cg-bootstrap-concourse-ami-git-branch}}
+    uri: {{concourse-packer-git-url}}
+    branch: {{concourse-packer-git-branch}}
 
 - name: concourse-release
-  type: bosh-io-release
+  type: github-release
   source:
-    repository: concourse/concourse
+    user: concourse
+    repository: concourse
 
-- name: build-cg-bootstrap-concourse-ami
+- name: packer-aws
   type: packer
   source:
-    aws_access_key_id: {{aws_access_key_id}}
-    aws_secret_access_key: {{aws_secret_access_key}}
-    region: {{aws_default_region}}
-
-- name: pipeline-tasks
-  type: git
-  source:
-    uri: {{pipeline-tasks-git-url}}
-    branch: {{pipeline-tasks-git-branch}}
-
-- name: slack
-  type: slack-notification
-  source:
-    url: {{slack-webhook-url}}
+    aws_access_key_id: {{aws-access-key-id}}
+    aws_secret_access_key: {{aws-secret-access-key}}
+    region: {{aws-default-region}}
 
 resource_types:
 - name: packer
   type: docker-image
   source:
     repository: jdub/packer-resource
-- name: slack-notification
-  type: docker-image
-  source:
-    repository: cfcommunity/slack-notification-resource
