@@ -1,4 +1,13 @@
 ---
+groups:
+- name: AWS
+  jobs:
+  - aws-us-east-1
+  - aws-us-west-1
+  - aws-us-west-2
+  - aws-sa-east-1
+  - aws-ap-northeast-1
+
 jobs:
 - name: aws-us-east-1
   plan:
