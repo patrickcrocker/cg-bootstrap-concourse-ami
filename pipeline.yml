@@ -7,6 +7,10 @@ groups:
   - aws-us-west-2
   - aws-sa-east-1
   - aws-ap-northeast-1
+  - aws-ap-southeast-1
+  - aws-ap-southeast-2
+  - aws-eu-west-1
+  - aws-eu-central-1
 
 jobs:
 - name: aws-us-east-1
@@ -171,6 +175,138 @@ jobs:
       params:
         text: |
           :white_check_mark: Successfully built Concourse AMI (ap-northeast-1)
+          <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
+
+- name: aws-ap-southeast-1
+  plan:
+  - aggregate:
+    - get: concourse-packer
+    - get: concourse-release
+      trigger: true
+      params:
+        globs:
+          - concourse_linux_amd64
+  - task: prepare-release
+    file: concourse-packer/tasks/prepare-release.yml
+    params:
+      CONFIG: |
+        "aws_region": "ap-southeast-1", "source_ami": "ami-5e429c3d"
+  - put: packer-aws
+    params:
+      template: prepare-release/bootstrap_concourse.json
+      var_file: prepare-release/secrets.json
+    on_failure:
+      put: slack
+      params:
+        text: |
+          :x: FAILED to build Concourse AMI (ap-southeast-1)
+          <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
+    on_success:
+      put: slack
+      params:
+        text: |
+          :white_check_mark: Successfully built Concourse AMI (ap-southeast-1)
+          <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
+
+- name: aws-ap-southeast-2
+  plan:
+  - aggregate:
+    - get: concourse-packer
+    - get: concourse-release
+      trigger: true
+      params:
+        globs:
+          - concourse_linux_amd64
+  - task: prepare-release
+    file: concourse-packer/tasks/prepare-release.yml
+    params:
+      CONFIG: |
+        "aws_region": "ap-southeast-2", "source_ami": "ami-25f3c746"
+  - put: packer-aws
+    params:
+      template: prepare-release/bootstrap_concourse.json
+      var_file: prepare-release/secrets.json
+    on_failure:
+      put: slack
+      params:
+        text: |
+          :x: FAILED to build Concourse AMI (ap-southeast-2)
+          <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
+    on_success:
+      put: slack
+      params:
+        text: |
+          :white_check_mark: Successfully built Concourse AMI (ap-southeast-2)
+          <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
+
+- name: aws-eu-west-1
+  plan:
+  - aggregate:
+    - get: concourse-packer
+    - get: concourse-release
+      trigger: true
+      params:
+        globs:
+          - concourse_linux_amd64
+  - task: prepare-release
+    file: concourse-packer/tasks/prepare-release.yml
+    params:
+      CONFIG: |
+        "aws_region": "eu-west-1", "source_ami": "ami-55452e26"
+  - put: packer-aws
+    params:
+      template: prepare-release/bootstrap_concourse.json
+      var_file: prepare-release/secrets.json
+    on_failure:
+      put: slack
+      params:
+        text: |
+          :x: FAILED to build Concourse AMI (eu-west-1)
+          <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
+    on_success:
+      put: slack
+      params:
+        text: |
+          :white_check_mark: Successfully built Concourse AMI (eu-west-1)
+          <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
+
+- name: aws-eu-central-1
+  plan:
+  - aggregate:
+    - get: concourse-packer
+    - get: concourse-release
+      trigger: true
+      params:
+        globs:
+          - concourse_linux_amd64
+  - task: prepare-release
+    file: concourse-packer/tasks/prepare-release.yml
+    params:
+      CONFIG: |
+        "aws_region": "eu-central-1", "source_ami": "ami-b1cf39de"
+  - put: packer-aws
+    params:
+      template: prepare-release/bootstrap_concourse.json
+      var_file: prepare-release/secrets.json
+    on_failure:
+      put: slack
+      params:
+        text: |
+          :x: FAILED to build Concourse AMI (eu-central-1)
+          <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: {{slack-channel}}
+    on_success:
+      put: slack
+      params:
+        text: |
+          :white_check_mark: Successfully built Concourse AMI (eu-central-1)
           <https://ci.anvil.pcfdemo.com/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
         channel: {{slack-channel}}
 
