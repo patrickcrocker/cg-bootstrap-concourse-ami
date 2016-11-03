@@ -18,7 +18,7 @@ jobs:
   - aggregate:
     - get: concourse-packer
     - get: concourse-release
-      trigger: true
+#      trigger: true
       params:
         globs:
           - concourse_linux_amd64
@@ -51,7 +51,7 @@ jobs:
   - aggregate:
     - get: concourse-packer
     - get: concourse-release
-      trigger: true
+#      trigger: true
       params:
         globs:
           - concourse_linux_amd64
@@ -84,7 +84,7 @@ jobs:
   - aggregate:
     - get: concourse-packer
     - get: concourse-release
-      trigger: true
+#      trigger: true
       params:
         globs:
           - concourse_linux_amd64
@@ -117,7 +117,7 @@ jobs:
   - aggregate:
     - get: concourse-packer
     - get: concourse-release
-      trigger: true
+#      trigger: true
       params:
         globs:
           - concourse_linux_amd64
@@ -150,7 +150,7 @@ jobs:
   - aggregate:
     - get: concourse-packer
     - get: concourse-release
-      trigger: true
+#      trigger: true
       params:
         globs:
           - concourse_linux_amd64
@@ -183,7 +183,7 @@ jobs:
   - aggregate:
     - get: concourse-packer
     - get: concourse-release
-      trigger: true
+#      trigger: true
       params:
         globs:
           - concourse_linux_amd64
@@ -216,7 +216,7 @@ jobs:
   - aggregate:
     - get: concourse-packer
     - get: concourse-release
-      trigger: true
+#      trigger: true
       params:
         globs:
           - concourse_linux_amd64
@@ -249,7 +249,7 @@ jobs:
   - aggregate:
     - get: concourse-packer
     - get: concourse-release
-      trigger: true
+#      trigger: true
       params:
         globs:
           - concourse_linux_amd64
@@ -282,7 +282,7 @@ jobs:
   - aggregate:
     - get: concourse-packer
     - get: concourse-release
-      trigger: true
+#      trigger: true
       params:
         globs:
           - concourse_linux_amd64
