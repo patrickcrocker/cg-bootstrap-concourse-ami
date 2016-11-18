@@ -13,7 +13,7 @@ execute "apt-get-update" do
   action :run
 end
 
-package 'linux-generic-lts-vivid'
+package 'linux-generic-lts-wily'
 package 'postgresql'
 
 # make sure we get HAProxy 1.5 from backports for proper SSL support
