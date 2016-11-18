@@ -27,7 +27,7 @@ jobs:
     file: concourse-packer/tasks/prepare-release.yml
     params:
       CONFIG: |
-        "aws_region": "us-east-1", "source_ami": "ami-db24d8b6"
+        "aws_region": "us-east-1", "source_ami": {{aws-ami-us-east-1}}
   - put: packer-aws
     params:
       template: prepare-release/bootstrap_concourse.json
@@ -61,7 +61,7 @@ jobs:
     file: concourse-packer/tasks/prepare-release.yml
     params:
       CONFIG: |
-        "aws_region": "us-west-1", "source_ami": "ami-11286c71"
+        "aws_region": "us-west-1", "source_ami": {{aws-ami-us-west-1}}
   - put: packer-aws
     params:
       template: prepare-release/bootstrap_concourse.json
@@ -95,7 +95,7 @@ jobs:
     file: concourse-packer/tasks/prepare-release.yml
     params:
       CONFIG: |
-        "aws_region": "us-west-2", "source_ami": "ami-012de961"
+        "aws_region": "us-west-2", "source_ami": {{aws-ami-us-west-2}}
   - put: packer-aws
     params:
       template: prepare-release/bootstrap_concourse.json
@@ -129,7 +129,7 @@ jobs:
     file: concourse-packer/tasks/prepare-release.yml
     params:
       CONFIG: |
-        "aws_region": "sa-east-1", "source_ami": "ami-0e3ab062"
+        "aws_region": "sa-east-1", "source_ami": {{aws-ami-sa-east-1}}
   - put: packer-aws
     params:
       template: prepare-release/bootstrap_concourse.json
@@ -163,7 +163,7 @@ jobs:
     file: concourse-packer/tasks/prepare-release.yml
     params:
       CONFIG: |
-        "aws_region": "ap-northeast-1", "source_ami": "ami-e839cd89"
+        "aws_region": "ap-northeast-1", "source_ami": {{aws-ami-ap-northeast-1}}
   - put: packer-aws
     params:
       template: prepare-release/bootstrap_concourse.json
@@ -197,7 +197,7 @@ jobs:
     file: concourse-packer/tasks/prepare-release.yml
     params:
       CONFIG: |
-        "aws_region": "ap-southeast-1", "source_ami": "ami-5e429c3d"
+        "aws_region": "ap-southeast-1", "source_ami": {{aws-ami-ap-southeast-1}}
   - put: packer-aws
     params:
       template: prepare-release/bootstrap_concourse.json
@@ -231,7 +231,7 @@ jobs:
     file: concourse-packer/tasks/prepare-release.yml
     params:
       CONFIG: |
-        "aws_region": "ap-southeast-2", "source_ami": "ami-25f3c746"
+        "aws_region": "ap-southeast-2", "source_ami": {{aws-ami-ap-southeast-2}}
   - put: packer-aws
     params:
       template: prepare-release/bootstrap_concourse.json
@@ -265,7 +265,7 @@ jobs:
     file: concourse-packer/tasks/prepare-release.yml
     params:
       CONFIG: |
-        "aws_region": "eu-west-1", "source_ami": "ami-55452e26"
+        "aws_region": "eu-west-1", "source_ami": {{aws-ami-eu-west-1}}
   - put: packer-aws
     params:
       template: prepare-release/bootstrap_concourse.json
@@ -299,7 +299,7 @@ jobs:
     file: concourse-packer/tasks/prepare-release.yml
     params:
       CONFIG: |
-        "aws_region": "eu-central-1", "source_ami": "ami-b1cf39de"
+        "aws_region": "eu-central-1", "source_ami": {{aws-ami-eu-central-1}}
   - put: packer-aws
     params:
       template: prepare-release/bootstrap_concourse.json
@@ -349,7 +349,8 @@ resource_types:
 - name: packer
   type: docker-image
   source:
-    repository: jdub/packer-resource
+    repository: patrickcrocker/packer-resource
+    tag: 0.12.0
 
 - name: slack-notification
   type: docker-image
