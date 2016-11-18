@@ -3,3 +3,6 @@ secrets.json
 
 # Eclipse project files
 .project
+
+# concourse binary (downloaded for local dev/testing)
+cookbooks/concourse/files/concourse_linux_amd64
